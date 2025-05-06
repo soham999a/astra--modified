@@ -1,4 +1,4 @@
-import { Calendar, UserCheck, Phone, Award, Compass, Star, Home, Calculator } from 'lucide-react';
+import { Calendar, UserCheck, Phone, Award, Compass, Star, Home, Calculator, HelpCircle, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import HeroSection from '@/components/HeroSection';
 import Navbar from '@/components/Navbar';
@@ -7,6 +7,10 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 import ServiceCard from '@/components/ServiceCard';
 import SlideShowServiceCard from '@/components/SlideShowServiceCard';
 import TestimonialCard from '@/components/TestimonialCard';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
+import NumerologyCalculator from '@/components/NumerologyCalculator';
+import FaqAccordion from '@/components/FaqAccordion';
+import ServiceComparisonTable from '@/components/ServiceComparisonTable';
 import VedicIconGrid from '@/components/VedicIconGrid';
 import { VedicIcon, VedicIconCircle, VedicIconWithTitle } from '@/components/VedicIcons';
 import VedicNumerologyHeader from '@/components/VedicNumerologyHeader';
@@ -322,30 +326,130 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             <div className="animate-fade-in opacity-0" style={{ animationDelay: '150ms' }}>
-              <TestimonialCard
-                name="Priya Sharma"
-                location="Delhi, India"
-                testimonial="The numerology analysis was eye-opening. The name correction suggestions have brought positive changes in my career."
+              <TestimonialCarousel
+                testimonials={[
+                  {
+                    name: "Priya Sharma",
+                    location: "Delhi, India",
+                    rating: 5,
+                    text: "The numerology analysis was eye-opening. The name correction suggestions have brought positive changes in my career.",
+                    service: "Numerology Consultation"
+                  },
+                  {
+                    name: "Rahul Mehra",
+                    location: "Mumbai, India",
+                    rating: 5,
+                    text: "The Vastu consultation completely transformed our home energy. We feel more peaceful and prosperous.",
+                    service: "Vastu Consultation"
+                  },
+                  {
+                    name: "Anjali Patel",
+                    location: "Bengaluru, India",
+                    rating: 4,
+                    text: "I was skeptical at first, but the personal number analysis was incredibly accurate and helpful.",
+                    service: "Personality Analysis"
+                  }
+                ]}
               />
             </div>
 
             <div className="animate-fade-in opacity-0" style={{ animationDelay: '300ms' }}>
-              <TestimonialCard
-                name="Rahul Mehra"
-                location="Mumbai, India"
-                testimonial="The Vastu consultation completely transformed our home energy. We feel more peaceful and prosperous."
-              />
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <h3 className="text-xl font-semibold mb-4 text-mystic-gold">Try Our Free Numerology Calculator</h3>
+                <NumerologyCalculator />
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="animate-fade-in opacity-0" style={{ animationDelay: '450ms' }}>
-              <TestimonialCard
-                name="Anjali Patel"
-                location="Bengaluru, India"
-                testimonial="I was skeptical at first, but the personal number analysis was incredibly accurate and helpful."
-              />
-            </div>
+      {/* FAQ Section */}
+      <section id="faq" className="section bg-celestial-blue/10">
+        <div className="container mx-auto">
+          <div className="text-center mb-12 animate-fade-in opacity-0">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4">Frequently <span className="text-mystic-gold">Asked Questions</span></h2>
+            <p className="text-cool-gray max-w-2xl mx-auto">
+              Find answers to common questions about our services and ancient sciences.
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto animate-fade-in opacity-0" style={{ animationDelay: '150ms' }}>
+            <FaqAccordion
+              faqs={[
+                {
+                  question: "What is Vedic Numerology?",
+                  answer: "Vedic Numerology is an ancient Indian science that studies the mystical relationship between numbers and events. It analyzes the influence of numbers on human life and provides insights into personality traits, life path, and potential future outcomes."
+                },
+                {
+                  question: "How can name correction help me?",
+                  answer: "Name correction aligns your name's vibration with your birth energy, potentially improving various aspects of life including career, relationships, and overall well-being. It works by balancing the numerical value of your name with your birth number."
+                },
+                {
+                  question: "What is Vastu Shastra?",
+                  answer: "Vastu Shastra is the ancient Indian science of architecture and design that aims to create harmony between humans and their living spaces. It provides guidelines for designing and arranging spaces to optimize positive energy flow."
+                },
+                {
+                  question: "How long does a consultation take?",
+                  answer: "A standard consultation typically takes 60-90 minutes, depending on the complexity of your questions and the service you choose. Follow-up sessions may be shorter, usually around 30-45 minutes."
+                },
+                {
+                  question: "Do I need to provide my birth details?",
+                  answer: "Yes, for numerology and astrological consultations, we require your full birth date, time, and place of birth for accurate analysis. For Vastu consultations, we need details about your property."
+                }
+              ]}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Service Comparison */}
+      <section id="service-packages" className="section bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-12 animate-fade-in opacity-0">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4">Our <span className="text-mystic-gold">Service Packages</span></h2>
+            <p className="text-cool-gray max-w-2xl mx-auto">
+              Choose the right package that suits your needs and budget.
+            </p>
+          </div>
+
+          <div className="animate-fade-in opacity-0" style={{ animationDelay: '150ms' }}>
+            <ServiceComparisonTable
+              serviceType="numerology"
+              features={[
+                { name: "Personality Number Analysis", basic: true, standard: true, premium: true },
+                { name: "Life Path Number Analysis", basic: true, standard: true, premium: true },
+                { name: "Name Correction Suggestions", basic: false, standard: true, premium: true },
+                { name: "Lucky Numbers & Dates", basic: false, standard: true, premium: true },
+                { name: "Detailed Written Report", basic: false, standard: false, premium: true },
+                { name: "Follow-up Consultation", basic: false, standard: false, premium: true }
+              ]}
+              tiers={[
+                {
+                  name: "Basic",
+                  price: "₹1,999",
+                  description: "Essential numerology reading",
+                  features: ["30-minute consultation", "Core number analysis"],
+                  link: "/contact"
+                },
+                {
+                  name: "Standard",
+                  price: "₹3,999",
+                  description: "Comprehensive analysis with name correction",
+                  features: ["60-minute consultation", "Name correction", "Lucky numbers"],
+                  recommended: true,
+                  link: "/contact"
+                },
+                {
+                  name: "Premium",
+                  price: "₹7,999",
+                  description: "Complete life guidance package",
+                  features: ["90-minute consultation", "Detailed written report", "Follow-up session"],
+                  link: "/contact"
+                }
+              ]}
+            />
           </div>
         </div>
       </section>
