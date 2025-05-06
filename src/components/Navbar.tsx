@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Star } from 'lucide-react';
+import AnimatedLogo from './AnimatedLogo';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
