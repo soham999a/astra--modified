@@ -100,6 +100,7 @@ const NavLinks = ({ onClick }: { onClick?: () => void }) => {
     },
     { to: '/astrology', label: 'Astrology' },
     { to: '/contact', label: 'Contact Us' },
+    { to: '/dashboard', label: 'Dashboard' },
   ];
 
   return (
