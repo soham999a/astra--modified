@@ -39,7 +39,7 @@ const Navbar = () => {
         {/* Mobile menu button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden text-charcoal hover:text-mystic-gold"
+          className="md:hidden text-charcoal hover:text-mystic-gold transition-colors duration-300"
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -54,7 +54,11 @@ const Navbar = () => {
         <div
           className={`fixed inset-0 z-40 bg-soft-cream transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             } transition-transform duration-300 ease-in-out md:hidden`}
-          style={{ top: isScrolled ? '56px' : '68px' }}
+          style={{
+            top: isScrolled ? '56px' : '68px',
+            height: 'calc(100vh - 56px)',
+            maxHeight: '-webkit-fill-available'
+          }}
         >
           <div className="h-full w-full overflow-y-auto pb-20 safe-area-inset-bottom">
             <nav className="flex flex-col items-center justify-center h-full space-y-8 text-xl pt-8">
@@ -84,11 +88,13 @@ const NavLinks = ({ onClick }: { onClick?: () => void }) => {
         const isActive = location.pathname === link.to;
 
         if (isActive) {
-          // Render active link with indicator
+          // Render active link with enhanced indicator
           return (
             <span
               key={link.to}
-              className="relative font-medium text-mystic-gold cursor-default after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-mystic-gold after:bottom-[-6px] after:left-0"
+              className="relative font-medium text-mystic-gold cursor-default
+                after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-mystic-gold after:bottom-[-6px] after:left-0
+                before:content-[''] before:absolute before:w-full before:h-0.5 before:bg-mystic-gold/30 before:bottom-[-10px] before:left-0 before:scale-x-75"
             >
               {link.label}
             </span>
@@ -99,7 +105,12 @@ const NavLinks = ({ onClick }: { onClick?: () => void }) => {
             <a
               key={link.to}
               href={link.to}
-              className="relative font-medium transition-all duration-300 hover:text-mystic-gold after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-mystic-gold after:bottom-[-6px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+              className="relative font-medium text-charcoal transition-all duration-300
+                hover:text-mystic-gold hover:scale-105
+                after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-mystic-gold after:bottom-[-6px] after:left-0
+                hover:after:w-full after:transition-all after:duration-300
+                before:content-[''] before:absolute before:w-0 before:h-0.5 before:bg-mystic-gold/30 before:bottom-[-10px] before:left-0
+                hover:before:w-full before:transition-all before:duration-500 before:scale-x-0 hover:before:scale-x-75"
               onClick={onClick}
             >
               {link.label}

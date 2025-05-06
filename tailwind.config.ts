@@ -33,7 +33,8 @@ export default {
         'mystic-gold': '#CDB06C',
         'dusty-lavender': '#CDBEDB',
         'charcoal': '#2C2C2C',
-        'cool-gray': '#5A5859', /* Darkened for better contrast */
+        'cool-gray': '#484747', /* Further darkened for better contrast */
+        'cool-gray-light': '#5A5859', /* Original cool-gray */
         'celestial-blue': '#BFD4E9',
         primary: {
           DEFAULT: 'hsl(var(--primary))',

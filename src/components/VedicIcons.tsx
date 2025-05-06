@@ -1,9 +1,9 @@
 import React from 'react';
-import { 
-  FaOm, 
-  FaPencilAlt, 
-  FaRegCalendarAlt, 
-  FaRegStar, 
+import {
+  FaOm,
+  FaPencilAlt,
+  FaRegCalendarAlt,
+  FaRegStar,
   FaBuilding,
   FaRegHeart,
   FaRegUser,
@@ -17,9 +17,9 @@ import {
   FaChild,
   FaHandHoldingHeart
 } from 'react-icons/fa';
-import { 
-  MdGridOn, 
-  MdPhoneAndroid, 
+import {
+  MdGridOn,
+  MdPhoneAndroid,
   MdOutlineLocationOn,
   MdOutlineAnalytics,
   MdBusinessCenter,
@@ -48,7 +48,7 @@ export const vedicIcons = {
   dashaCalculation: <FaRegClock />,
   bankNumbers: <FaRegCreditCard />,
   remedialMeasures: <MdOutlineAnalytics />,
-  
+
   // Vastu Icons
   plotSelection: <FaMapMarkerAlt />,
   homeVastu: <FaHome />,
@@ -56,7 +56,7 @@ export const vedicIcons = {
   factoryVastu: <FaIndustry />,
   onSiteVisit: <MdOutlineLocationOn />,
   plotAdvice: <FaChartLine />,
-  
+
   // Lo Shu Grid
   loShuGrid: <BsGrid3X3 />,
 };
@@ -107,17 +107,17 @@ interface VedicIconProps {
 }
 
 // Reusable Vedic Icon component
-export const VedicIcon: React.FC<VedicIconProps> = ({ 
-  icon, 
-  size = 'md', 
+export const VedicIcon: React.FC<VedicIconProps> = ({
+  icon,
+  size = 'md',
   color = 'default',
-  className = '' 
+  className = ''
 }) => {
   const iconSize = getIconSize(size);
-  const iconColor = color in iconColors 
-    ? iconColors[color as keyof typeof iconColors] 
+  const iconColor = color in iconColors
+    ? iconColors[color as keyof typeof iconColors]
     : color;
-  
+
   return (
     <span className={`inline-flex ${iconColor} ${className}`}>
       {React.cloneElement(vedicIcons[icon], { size: iconSize })}
@@ -132,9 +132,9 @@ interface VedicIconCircleProps extends VedicIconProps {
 }
 
 // Icon with circle background
-export const VedicIconCircle: React.FC<VedicIconCircleProps> = ({ 
-  icon, 
-  size = 'md', 
+export const VedicIconCircle: React.FC<VedicIconCircleProps> = ({
+  icon,
+  size = 'md',
   color = 'default',
   borderColor,
   className = '',
@@ -143,21 +143,21 @@ export const VedicIconCircle: React.FC<VedicIconCircleProps> = ({
   const iconSize = getIconSize(size);
   const actualSize = typeof size === 'string' ? getIconSize(size) : size;
   const containerSize = Math.max(actualSize * 2, 40); // Ensure minimum size
-  
-  const iconColor = color in iconColors 
-    ? iconColors[color as keyof typeof iconColors] 
+
+  const iconColor = color in iconColors
+    ? iconColors[color as keyof typeof iconColors]
     : color;
-  
-  const borderCol = borderColor 
-    ? (borderColor in iconBorderColors 
-        ? iconBorderColors[borderColor as keyof typeof iconBorderColors] 
+
+  const borderCol = borderColor
+    ? (borderColor in iconBorderColors
+        ? iconBorderColors[borderColor as keyof typeof iconBorderColors]
         : borderColor)
-    : (color in iconBorderColors 
-        ? iconBorderColors[color as keyof typeof iconBorderColors] 
+    : (color in iconBorderColors
+        ? iconBorderColors[color as keyof typeof iconBorderColors]
         : iconBorderColors.default);
-  
+
   return (
-    <div 
+    <div
       className={`inline-flex items-center justify-center rounded-full border ${borderCol} ${className}`}
       style={{ width: containerSize, height: containerSize }}
       onClick={onClick}
@@ -177,11 +177,11 @@ interface VedicIconWithTitleProps extends VedicIconCircleProps {
 }
 
 // Icon with title component
-export const VedicIconWithTitle: React.FC<VedicIconWithTitleProps> = ({ 
-  icon, 
+export const VedicIconWithTitle: React.FC<VedicIconWithTitleProps> = ({
+  icon,
   title,
   link,
-  size = 'md', 
+  size = 'md',
   color = 'default',
   borderColor,
   className = '',
@@ -190,20 +190,20 @@ export const VedicIconWithTitle: React.FC<VedicIconWithTitleProps> = ({
 }) => {
   const content = (
     <div className={`flex flex-col items-center ${className}`}>
-      <VedicIconCircle 
-        icon={icon} 
-        size={size} 
-        color={color} 
-        borderColor={borderColor} 
+      <VedicIconCircle
+        icon={icon}
+        size={size}
+        color={color}
+        borderColor={borderColor}
         className="mb-2"
         onClick={onClick}
       />
-      <span className={`text-center text-sm font-medium text-cool-gray ${titleClassName}`}>
+      <span className={`text-center text-sm font-medium ${titleClassName}`}>
         {title}
       </span>
     </div>
   );
-  
+
   if (link) {
     return (
       <Link to={link} className="hover:-translate-y-1 transition-transform duration-300">
@@ -211,7 +211,7 @@ export const VedicIconWithTitle: React.FC<VedicIconWithTitleProps> = ({
       </Link>
     );
   }
-  
+
   return content;
 };
 

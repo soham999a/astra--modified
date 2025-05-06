@@ -48,10 +48,26 @@
     @apply bg-soft-cream text-charcoal font-normal;
   }
 
-  /* Fix for iOS Safari viewport height issue */
-  html, body {
+  /* Enhanced fix for iOS Safari viewport height issues */
+  html {
+    height: 100%;
     height: -webkit-fill-available;
     overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  }
+
+  body {
+    min-height: 100%;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+    /* Fix for notched iOS devices */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* Fix for iOS Safari 100vh issue */
+  @supports (-webkit-touch-callout: none) {
+    .h-screen, .min-h-screen {
+      height: -webkit-fill-available;
+    }
   }
 
   /* Improved section spacing for mobile */
@@ -64,11 +80,22 @@
     @apply absolute inset-0 w-full h-full opacity-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out;
   }
 
-  /* Improved service card for mobile */
+  /* Enhanced service card for mobile with better hover effects */
   .service-card {
-    @apply relative overflow-hidden rounded-xl p-5 md:p-6 bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-2;
+    @apply relative overflow-hidden rounded-xl p-5 md:p-6 bg-white shadow-md transition-all duration-500 hover:shadow-xl hover:-translate-y-2;
     max-width: 100%;
     word-wrap: break-word;
+    transform: translateZ(0); /* Force hardware acceleration for smoother animations */
+    backface-visibility: hidden; /* Prevent flickering on some mobile browsers */
+    -webkit-font-smoothing: subpixel-antialiased; /* Improve text rendering */
+  }
+
+  /* Service card hover effect for touch devices */
+  @media (hover: none) {
+    .service-card:active {
+      @apply shadow-xl -translate-y-1;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
   }
 
   .hover-glow {
@@ -86,7 +113,7 @@
     max-width: 100%;
   }
 
-  /* Slideshow animation for services */
+  /* Enhanced slideshow animations for services */
   @keyframes service-slide {
     0%, 25% {
       opacity: 1;
@@ -98,7 +125,46 @@
     }
   }
 
+  @keyframes service-fade {
+    0%, 30% {
+      opacity: 1;
+    }
+    33%, 100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes service-scale {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    5%, 25% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    30%, 100% {
+      opacity: 0;
+      transform: scale(1.1);
+    }
+  }
+
   .service-slideshow {
     animation: service-slide 12s infinite;
+  }
+
+  .service-fade {
+    animation: service-fade 3.5s infinite;
+  }
+
+  .service-scale {
+    animation: service-scale 3.5s infinite;
+  }
+
+  /* Pause animations when user prefers reduced motion */
+  @media (prefers-reduced-motion) {
+    .service-slideshow, .service-fade, .service-scale {
+      animation: none;
+    }
   }
 }
