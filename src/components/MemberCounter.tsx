@@ -1,117 +1,85 @@
 import { useState, useEffect } from 'react';
-import { collection, query, getDocs, onSnapshot } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { Users } from 'lucide-react';
 
-interface MemberCounterProps {
-  className?: string;
-  showIcon?: boolean;
-  iconSize?: number;
-  animate?: boolean;
+interface FloatingMemberCounterProps {
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  showLabel?: boolean;
 }
 
-const MemberCounter = ({ 
-  className = '', 
-  showIcon = true, 
-  iconSize = 24,
-  animate = true 
-}: MemberCounterProps) => {
-  const [memberCount, setMemberCount] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(true);
+const FloatingMemberCounter = ({
+  position = 'bottom-right',
+  showLabel = true
+}: FloatingMemberCounterProps) => {
+  const [memberCount, setMemberCount] = useState<number>(125);
   const [displayCount, setDisplayCount] = useState<number>(0);
-  const [error, setError] = useState<string | null>(null);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
+  // Position classes
+  const positionClasses = {
+    'top-left': 'top-4 left-4',
+    'top-right': 'top-4 right-4',
+    'bottom-left': 'bottom-24 left-4',
+    'bottom-right': 'bottom-24 right-4'
+  };
+
+  // Simulate member count increasing every 30 seconds
   useEffect(() => {
-    const fetchMemberCount = async () => {
-      try {
-        setLoading(true);
-        
-        // Create a query against the "members" collection
-        const membersRef = collection(db, 'members');
-        const querySnapshot = await getDocs(membersRef);
-        
-        // Set the actual count
-        const count = querySnapshot.size;
-        setMemberCount(count);
-        
-        // Start with 0 for animation
-        setDisplayCount(0);
-        
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching member count:', err);
-        setError('Failed to load member count');
-        setLoading(false);
-      }
-    };
+    const interval = setInterval(() => {
+      setMemberCount(prev => prev + 1);
+    }, 30000);
 
-    // Set up real-time listener for member count updates
-    const setupRealTimeListener = () => {
-      try {
-        const membersRef = collection(db, 'members');
-        const unsubscribe = onSnapshot(membersRef, (snapshot) => {
-          const count = snapshot.size;
-          setMemberCount(count);
-        });
-        
-        // Return the unsubscribe function to clean up on component unmount
-        return unsubscribe;
-      } catch (err) {
-        console.error('Error setting up real-time listener:', err);
-        setError('Failed to set up real-time updates');
-        return () => {};
-      }
-    };
-
-    fetchMemberCount();
-    const unsubscribe = setupRealTimeListener();
-    
-    return () => {
-      unsubscribe();
-    };
+    return () => clearInterval(interval);
   }, []);
 
   // Animate the counter
   useEffect(() => {
-    if (!loading && animate && displayCount < memberCount) {
-      const animationDuration = 2000; // 2 seconds
-      const interval = 50; // Update every 50ms
+    if (displayCount < memberCount) {
+      const animationDuration = 1500; // 1.5 seconds
+      const interval = 40; // Update every 40ms
       const increment = Math.ceil(memberCount / (animationDuration / interval));
-      
+
       const timer = setInterval(() => {
         setDisplayCount(prev => {
           const next = prev + increment;
           return next >= memberCount ? memberCount : next;
         });
       }, interval);
-      
+
       return () => clearInterval(timer);
     }
-  }, [loading, memberCount, displayCount, animate]);
+  }, [memberCount, displayCount]);
 
   return (
-    <div className={`flex items-center ${className}`}>
-      {showIcon && (
-        <div className="mr-3 text-mystic-gold">
-          <Users size={iconSize} className="animate-pulse-glow" />
-        </div>
-      )}
-      <div>
-        {loading ? (
-          <div className="h-8 w-16 bg-gray-200 animate-pulse rounded"></div>
-        ) : error ? (
-          <p className="text-red-500 text-sm">{error}</p>
-        ) : (
-          <div className="flex flex-col">
-            <span className="text-2xl font-bold text-mystic-gold">
-              {animate ? displayCount.toLocaleString() : memberCount.toLocaleString()}
-            </span>
-            <span className="text-sm text-charcoal/70">Members</span>
+    <div
+      className={`fixed ${positionClasses[position]} z-40 transition-all duration-300`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`flex items-center bg-white rounded-full shadow-lg overflow-hidden transition-all duration-300
+        ${isHovered ? 'pl-3 pr-5 py-3' : 'p-3'}`}
+      >
+        {/* Icon with pulse animation */}
+        <div className="relative">
+          <span className="absolute inset-0 rounded-full bg-mystic-gold/20 animate-ping-slow"></span>
+          <div className="relative bg-mystic-gold text-white p-2 rounded-full">
+            <Users size={20} />
           </div>
-        )}
+        </div>
+
+        {/* Counter that expands on hover */}
+        <div className={`overflow-hidden transition-all duration-300 ${isHovered ? 'w-auto ml-3 opacity-100' : 'w-0 opacity-0'}`}>
+          <div className="whitespace-nowrap">
+            <span className="text-xl font-bold text-mystic-gold">
+              {displayCount.toLocaleString()}
+            </span>
+            {showLabel && (
+              <span className="text-xs text-charcoal/70 ml-1">members</span>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default MemberCounter;
+export default FloatingMemberCounter;

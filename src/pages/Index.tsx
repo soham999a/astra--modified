@@ -14,6 +14,7 @@ import ServiceComparisonTable from '@/components/ServiceComparisonTable';
 import VedicIconGrid from '@/components/VedicIconGrid';
 import { VedicIcon, VedicIconCircle, VedicIconWithTitle } from '@/components/VedicIcons';
 import VedicNumerologyHeader from '@/components/VedicNumerologyHeader';
+import FloatingMemberCounter from '@/components/MemberCounter';
 
 const Index = () => {
   // Numerology services data for slideshow
@@ -77,6 +78,7 @@ const Index = () => {
     <div className="min-h-screen bg-soft-cream">
       <Navbar />
       <WhatsAppButton />
+      <FloatingMemberCounter position="bottom-right" />
 
       {/* Hero Section */}
       <HeroSection />

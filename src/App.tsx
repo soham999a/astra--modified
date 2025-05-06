@@ -9,7 +9,6 @@ import Numerology from "./pages/Numerology";
 import Vastu from "./pages/Vastu";
 import Astrology from "./pages/Astrology";
 import Contact from "./pages/Contact";
-import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,7 +25,6 @@ const App = () => (
           <Route path="/vastu" element={<Vastu />} />
           <Route path="/astrology" element={<Astrology />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
